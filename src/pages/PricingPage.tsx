@@ -13,7 +13,8 @@ const plans = [
     features: [";)"],
     description: "no refund faggots (its going to charity)",
     buttonText: "Escape now",
-    href: "/",
+    href: "https://buy.stripe.com/6oU9AV0gA0zp51qf2q9sk0b",
+    yearlyHref: "https://buy.stripe.com/28EfZjd3m3LB9hG1bA9sk0c",
     isPopular: false,
   },
   {
@@ -24,7 +25,8 @@ const plans = [
     features: [";)", ";)"],
     description: "no refund faggots (its going to charity)",
     buttonText: "Get Started",
-    href: "/sign-up",
+    href: "https://buy.stripe.com/3cI00lgfy2HxfG4f2q9sk0e",
+    yearlyHref: "https://buy.stripe.com/4gM8wR2oI1DtdxWcUi9sk0d",
     isPopular: true,
   },
   {
@@ -36,6 +38,7 @@ const plans = [
     description: "For large organizations with specific needs",
     buttonText: "Contact Sales",
     href: "/contact",
+    yearlyHref: "/contact",
     isPopular: false,
     isBlurred: true,
   },
@@ -66,13 +69,14 @@ const PricingPage = () => {
           icon={<FaTelegram size={28} className="text-blue-500" />}
           variant="blue"
           ariaLabel="Telegram"
-          onClick={() => window.open('https://telegram.org', '_blank')}
+          onClick={() => window.open('https://t.me/+gKelAcHCZeg5ZTBh', '_blank')}
         />
       </div>
 
       <Pricing
         plans={plans}
-        title="A leader doesn't just survive the game. He makes the game survive him.."
+        title="A leader doesn't just survive the game."
+        titleHighlight="He makes the game survive him.."
       />
     </div>
   );

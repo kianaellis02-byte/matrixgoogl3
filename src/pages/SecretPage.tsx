@@ -1,15 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Check, Star } from "lucide-react";
+import { ArrowLeft, Check, Star, BadgeCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { PlasmaCursor } from "@/components/ui/plasma-cursor";
 
 const SecretPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Plasma cursor background */}
+      <div className="fixed inset-0 z-0">
+        <PlasmaCursor />
+      </div>
+
       <button
         onClick={() => navigate('/')}
         className="fixed top-6 left-6 z-50 flex items-center gap-2 text-foreground hover:text-primary transition-colors"
@@ -18,7 +23,7 @@ const SecretPage = () => {
         <span>Back</span>
       </button>
 
-      <div className="container py-20">
+      <div className="container py-20 relative z-10">
         <div className="text-center space-y-4 mb-12">
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
             uhhhh👀
@@ -73,8 +78,10 @@ const SecretPage = () => {
 
               <hr className="w-full my-4 border-border" />
 
-              <Link
-                to="/contact"
+              <a
+                href="https://buy.stripe.com/4gM9AV8N60zp1Pef2q9sk0f"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={cn(
                   buttonVariants({
                     variant: "outline",
@@ -85,10 +92,14 @@ const SecretPage = () => {
                 )}
               >
                 Contact Team
-              </Link>
+              </a>
               <p className="mt-6 text-xs leading-5 text-muted-foreground">
                 For those who found the secret, no refund faggots (its going to charity)
               </p>
+              <div className="flex items-center justify-center gap-1 mt-2">
+                <span className="text-xs text-muted-foreground">NDA required</span>
+                <BadgeCheck className="h-4 w-4 text-primary" />
+              </div>
             </div>
           </motion.div>
         </div>
