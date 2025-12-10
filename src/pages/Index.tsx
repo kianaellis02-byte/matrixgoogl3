@@ -51,7 +51,7 @@ const Index = () => {
               transition={{ duration: 0.5 }}
             >
               <Countdown
-                start={21}
+                start={20}
                 onComplete={() => setCountdownComplete(true)}
               />
             </motion.div>

@@ -7,7 +7,6 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Check, Star } from "lucide-react";
-import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import confetti from "canvas-confetti";
 import NumberFlow from "@number-flow/react";
@@ -21,6 +20,7 @@ interface PricingPlan {
   description: string;
   buttonText: string;
   href: string;
+  yearlyHref?: string;
   isPopular: boolean;
   isBlurred?: boolean;
 }
@@ -28,12 +28,14 @@ interface PricingPlan {
 interface PricingProps {
   plans: PricingPlan[];
   title?: string;
+  titleHighlight?: string;
   description?: string;
 }
 
 export function Pricing({
   plans,
   title = "Simple, Transparent Pricing",
+  titleHighlight,
   description,
 }: PricingProps) {
   const [isMonthly, setIsMonthly] = useState(true);
@@ -69,11 +71,28 @@ export function Pricing({
     }
   };
 
+  const getButtonHref = (plan: PricingPlan) => {
+    if (isMonthly) {
+      return plan.href;
+    }
+    return plan.yearlyHref || plan.href;
+  };
+
+  const isExternalLink = (href: string) => {
+    return href.startsWith('http://') || href.startsWith('https://');
+  };
+
   return (
     <div className="container py-20">
       <div className="text-center space-y-4 mb-12">
         <h2 className="text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
           {title}
+          {titleHighlight && (
+            <>
+              {" "}
+              <span className="text-primary">{titleHighlight}</span>
+            </>
+          )}
         </h2>
         {description && (
           <p className="text-muted-foreground text-lg whitespace-pre-line">
@@ -191,22 +210,43 @@ export function Pricing({
 
               <hr className="w-full my-4 border-border" />
 
-              <Link
-                to={plan.href}
-                className={cn(
-                  buttonVariants({
-                    variant: "outline",
-                  }),
-                  "group relative w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter",
-                  "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-1 hover:bg-primary hover:text-primary-foreground",
-                  plan.isPopular
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-background text-foreground",
-                  plan.isBlurred && "blur-sm pointer-events-none"
-                )}
-              >
-                {plan.isBlurred ? "???" : plan.buttonText}
-              </Link>
+              {isExternalLink(getButtonHref(plan)) ? (
+                <a
+                  href={getButtonHref(plan)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    buttonVariants({
+                      variant: "outline",
+                    }),
+                    "group relative w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter",
+                    "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-1 hover:bg-primary hover:text-primary-foreground",
+                    plan.isPopular
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-background text-foreground",
+                    plan.isBlurred && "blur-sm pointer-events-none"
+                  )}
+                >
+                  {plan.isBlurred ? "???" : plan.buttonText}
+                </a>
+              ) : (
+                <a
+                  href={getButtonHref(plan)}
+                  className={cn(
+                    buttonVariants({
+                      variant: "outline",
+                    }),
+                    "group relative w-full gap-2 overflow-hidden text-lg font-semibold tracking-tighter",
+                    "transform-gpu ring-offset-current transition-all duration-300 ease-out hover:ring-2 hover:ring-primary hover:ring-offset-1 hover:bg-primary hover:text-primary-foreground",
+                    plan.isPopular
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-background text-foreground",
+                    plan.isBlurred && "blur-sm pointer-events-none"
+                  )}
+                >
+                  {plan.isBlurred ? "???" : plan.buttonText}
+                </a>
+              )}
               <p className={cn("mt-6 text-xs leading-5 text-muted-foreground", plan.isBlurred && "blur-sm select-none")}>
                 {plan.isBlurred ? "???" : plan.description}
               </p>
